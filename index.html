@@ -1,0 +1,1243 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Reforma Tributária — Inteligência Fiscal Municipal</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/styles.css">
+<link rel="icon" href="img/ico.png">
+</head>
+<body>
+<!-- ===================== TOP BAR ===================== -->
+<div class="topbar">
+  <div class="logopng">
+<img class="logogo" src="img/logo-site.png" alt="logo">
+  </div>
+  <div class="filters" id="filters-main">
+    <label class="select real"><div class="lab">Município</div><select class="val" id="mun-select"></select></label>
+    <label class="select real"><div class="lab">Ano-base</div><select class="val" id="ano-select"></select></label>
+    <label class="select real" id="scen-wrap"><div class="lab">Cenário</div><select class="val" id="tb-scen-select">
+      <option value="conservador">Cenário Conservador</option>
+      <option value="base">Cenário Base</option>
+      <option value="otimista">Cenário Otimista</option>
+      <option value="custom">Meu Cenário</option>
+    </select></label>
+    <button class="btn play-btn" id="btn-play" type="button" title="Avança o ano-base a cada segundo para ver os gráficos mudarem"><svg class="i-play" viewBox="0 0 24 24" fill="currentColor"><path d="M7 4.5v15a1 1 0 001.5.86l12-7.5a1 1 0 000-1.72l-12-7.5A1 1 0 007 4.5z"/></svg><svg class="i-pause" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="4" width="4.5" height="16" rx="1.2"/><rect x="13.5" y="4" width="4.5" height="16" rx="1.2"/></svg><span id="btn-play-lbl">Avançar</span></button>
+  </div>
+  <div class="topbar-actions">
+    <img class="tb-logo" src="img/logo-observatorio.png" alt="Observatório de Desenvolvimento Socioeconômico e Inovação — UNESC">
+  </div>
+</div>
+
+<div class="below">
+  <!-- ===================== SIDEBAR ===================== -->
+  <aside class="sidebar">
+    <nav id="nav">
+      <div class="nav-item active" data-view="mapa">
+        <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="9"/><rect x="14" y="3" width="7" height="5"/><rect x="14" y="12" width="7" height="9"/><rect x="3" y="16" width="7" height="5"/></svg></div>
+        <div class="txt"><b>Visão Geral</b><span>Mapa de risco de SC</span></div>
+      </div>
+      <div class="nav-item" data-view="transicao">
+        <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 17l6-6 4 4 8-8"/><path d="M17 7h4v4"/></svg></div>
+        <div class="txt"><b>Transição 2026–2078</b><span>Evolução anual</span></div>
+      </div>
+      <div class="nav-item" data-view="estrutura">
+        <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21V10l5 3V10l5 3V10l5 3V4h3v17z"/><path d="M7 17h2M12 17h2M17 17h2"/></svg></div>
+        <div class="txt"><b>Estrutura Produtiva</b><span>Setores, encadeamentos e alíquota</span></div>
+      </div>
+      <div class="nav-item" data-view="setorial">
+        <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12A9 9 0 1112 3v9z"/><path d="M15 3.5A9 9 0 0120.5 9H15z"/></svg></div>
+        <div class="txt"><b>Decomposição Setorial</b><span>Impacto por setor econômico</span></div>
+      </div>
+      <div class="nav-item" data-view="benchmark">
+        <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 20V8M10 20V4M16 20v-8M22 20H2"/></svg></div>
+        <div class="txt"><b>Benchmarking Municipal</b><span>Compare municípios</span></div>
+      </div>
+      <div class="nav-item" data-view="investimento">
+        <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="9" r="6"/><path d="M9 6.5v5M7 8h3a1 1 0 010 2H8a1 1 0 000 2h3"/><path d="M15.5 13.5L21 8M17 8h4v4"/><path d="M3 21h18"/></svg></div>
+        <div class="txt"><b>Simulador de Impulsionamento</b><span>Quanto volta de receita por setor</span></div>
+      </div>
+      <div class="nav-item" data-view="metodologia">
+        <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 5h12l4 4v10H4z"/><path d="M8 3v4M8 12h8M8 16h5"/></svg></div>
+        <div class="txt"><b>Metodologia e Legislação</b><span>Bases, premissas e normas</span></div>
+      </div>
+    </nav>
+  </aside>
+
+  <!-- ===================== CONTENT ===================== -->
+  <main class="content">
+    <!-- ========== VIEW: OVERVIEW ========== -->
+    <section id="view-overview">
+      <div>
+        <div class="page-title">VISÃO EXECUTIVA</div>
+        <div class="page-sub" id="ov-sub">Impacto estimado da Reforma Tributária para Criciúma - SC</div>
+      </div>
+
+      <div class="stats" id="sec-impacto">
+        <div class="stat">
+          <div class="top"><div class="k">Receita atual projetada<small>(cenário sem reforma)</small></div>
+            <div class="badge b-teal"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19V9M10 19V5M16 19v-7M22 19H2"/></svg></div></div>
+          <div class="v v-navy" id="ov-sem">R$ 388,9 mi</div>
+        </div>
+        <div class="stat">
+          <div class="top"><div class="k">Receita com a Reforma<small>(<span class="yr">2033</span>)</small></div>
+            <div class="badge b-navy"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21h18M5 21V10l7-5 7 5v11M9 21v-6h6v6"/></svg></div></div>
+          <div class="v v-navy" id="ov-com">R$ 366,4 mi</div>
+        </div>
+        <div class="stat">
+          <div class="top"><div class="k">Impacto estimado<small>(<span class="yr">2033</span>)</small></div>
+            <div class="badge b-coral" id="ov-imp-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M6 13l6 6 6-6"/></svg></div></div>
+          <div class="v v-coral" id="ov-imp">- R$ 26,0 mi</div>
+        </div>
+        <div class="stat">
+          <div class="top"><div class="k">Impacto percentual<small>(<span class="yr">2033</span>)</small></div>
+            <div class="badge b-coral"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="7" cy="7" r="3"/><circle cx="17" cy="17" r="3"/><path d="M18 6L6 18"/></svg></div></div>
+          <div class="v v-coral" id="ov-imp-pct">-6,6%</div>
+        </div>
+        <div class="stat">
+          <div class="top"><div class="k">Alíquota de equilíbrio<small>(estimada)</small></div>
+            <div class="badge b-blue"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v18M6 7h12M4 11l3-4 3 4a3 3 0 01-6 0zM14 11l3-4 3 4a3 3 0 01-6 0z"/></svg></div></div>
+          <div class="v v-blue" id="ov-eq">18,74%</div>
+        </div>
+        <div class="stat">
+          <div class="top"><div class="k">Classificação de risco<small>(exposição à reforma)</small></div>
+            <div class="badge b-coral"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3l9 5v6c0 5-4 7-9 7s-9-2-9-7V8z"/></svg></div></div>
+          <div class="tag" id="ov-risco">ALTO</div>
+        </div>
+        <div class="stat info">
+          <div class="top"><div class="k">O que significa?</div>
+            <div class="badge" style="background:#e3e6ec;color:var(--navy)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/></svg></div></div>
+          <p id="ov-explain">A Reforma Tributária deve reduzir a receita de Criciúma em 6,6% até 2033, neste cenário. Para manter a receita do cenário-base, a alíquota de equilíbrio estimada é 18,74%.</p>
+        </div>
+      </div>
+
+      <!-- Row 2 -->
+      <div class="grid g-2-1">
+        <div class="card pad">
+          <div class="section-head">
+            <div class="section-title" id="sec-transicao">TRANSIÇÃO DA REFORMA TRIBUTÁRIA 2026–2077</div>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 200px;gap:16px">
+            <div>
+              <div class="legend">
+                <span><i style="background:var(--teal)"></i>Receita protegida (seguro-receita)</span>
+                <span><i style="background:var(--dark)"></i>IBS destino (partilha)</span>
+                <span><i class="line"></i>Receita total sem reforma (cenário base)</span>
+                <span><i class="line2"></i>Diferença acumulada</span>
+              </div>
+              <div class="chart-box" style="height:280px"><canvas id="c-transicao"></canvas></div>
+            </div>
+            <div class="acc-box">
+              <div class="lab">Impacto acumulado<br>2026–2077</div>
+              <div class="big" id="ov-acc">- R$ 1.459,6 mi</div>
+              <p>Perda acumulada durante toda a transição, à medida que o seguro-receita reduz e o IBS passa a ser distribuído pelo destino (consumo local).</p>
+              <div class="lnk"><span class="mini-link" data-goto="simulator">Ver detalhes →</span></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card pad">
+          <div class="section-head">
+            <div class="section-title">SIMULADOR DE CENÁRIOS</div>
+            <span class="mini-link" id="ov-sim-reset">↺ Redefinir</span>
+          </div>
+          <div style="font-size:11px;color:var(--muted);font-weight:600;margin-bottom:8px">Parâmetros do cenário</div>
+          <table class="sim-tbl">
+            <thead><tr><th>Parâmetro</th><th class="r">Cenário Base</th><th class="r">Meu Cenário</th></tr></thead>
+            <tbody id="ov-sim-tbody"></tbody>
+          </table>
+          <div style="font-size:11px;color:var(--muted);font-weight:600;margin-top:14px">Resultado <span class="yr">2033</span></div>
+          <div class="res-row">
+            <div class="res-cell"><div class="l">Cenário Base</div><div class="n v-navy" id="ov-r-base">R$ 366,4 mi</div></div>
+            <div class="res-cell"><div class="l">Meu Cenário</div><div class="n v-blue" id="ov-r-meu">R$ 366,4 mi</div></div>
+            <div class="res-cell"><div class="l">Efeito</div><div class="n v-teal" id="ov-r-efeito">R$ 0,0 mi</div></div>
+          </div>
+          <div class="pill-row" id="ov-pills">
+            <div class="pill" data-preset="conservador">Cenário Conservador</div>
+            <div class="pill sel" data-preset="base">Cenário Base</div>
+            <div class="pill" data-preset="otimista">Cenário Otimista</div>
+          </div>
+          <div class="pill-row"><div class="pill save" id="ov-save" style="flex:none;width:100%">Salvar Cenário</div></div>
+        </div>
+      </div>
+
+      <!-- Row 3 -->
+      <div class="grid g-3">
+        <div class="card pad">
+          <div class="section-title" id="sec-aliquota">ALÍQUOTA DE EQUILÍBRIO</div>
+          <div style="font-size:10.5px;color:var(--muted);margin:8px 0 6px">Alíquota de equilíbrio estimada<br>para manter a receita do cenário-base.</div>
+          <div style="display:flex;align-items:flex-start;justify-content:space-between">
+            <div style="font-size:30px;font-weight:800;color:var(--blue);letter-spacing:-1px" id="ov-eq2">18,74%</div>
+            <div style="text-align:right"><div style="font-size:10px;color:var(--muted)">Hipótese atual IBS</div><div style="font-size:16px;font-weight:800;color:var(--navy)" id="ov-eq-ibs">17,50%</div><div style="font-size:10px;color:var(--coral);font-weight:600" id="ov-eq-diff">Diferença<br>+1,29 p.p ↑</div></div>
+          </div>
+          <div style="font-size:10.5px;color:var(--muted);font-weight:600;margin:14px 0 4px">Sensibilidade da receita à alíquota IBS (<span class="yr">2033</span>)</div>
+          <div class="chart-box" style="height:150px"><canvas id="c-aliquota"></canvas></div>
+        </div>
+
+        <div class="card pad">
+          <div class="section-title" id="sec-mapa">MAPA DE RISCO MUNICIPAL</div>
+          <div style="font-size:10.5px;color:var(--muted);margin:6px 0 10px">Índice de Exposição à Reforma Tributária (<span class="yr">2033</span>)</div>
+          <div class="map-wrap">
+<svg class="map-svg" id="risk-map" viewBox="0 0 1000 696.1" preserveAspectRatio="xMidYMid meet" style="width:100%;height:auto;display:block"></svg>
+<div class="tip hidden" id="map-tip"></div>
+            <div class="map-zoom"><button>+</button><button>−</button></div>
+            <div class="map-legend" id="map-legend"></div>
+          </div>
+        </div>
+
+        <div class="card pad">
+          <div class="map-info" style="margin:0 0 4px">
+            <div class="h" id="ov-map-name">Criciúma - SC</div>
+            <div class="risk" id="ov-map-risk">Risco: ALTO</div>
+            <div class="r"><span>Impacto <span class="yr">2033</span></span><b style="color:var(--coral)" id="ov-map-pct">-6,6%</b></div>
+            <div class="r"><span>Impacto financeiro</span><b style="color:var(--coral)" id="ov-map-fin">- R$ 26,0 mi</b></div>
+            <div class="r"><span>Dependência ICMS</span><b>38%</b></div>
+            <div class="r"><span>Dependência ISS</span><b>22%</b></div>
+            <div class="r"><span>Perfil econômico</span><b>Serviços / Indústria</b></div>
+          </div>
+          <div class="section-title" id="sec-setores" style="margin-top:16px">COMPOSIÇÃO DA RECEITA COM A REFORMA</div>
+          <div style="font-size:10.5px;color:var(--muted);margin:6px 0 6px"><b id="comp-mun-lbl">—</b> · partes da receita por ano (R$ mi). A linha tracejada marca o ano-base.</div>
+          <div class="legend" id="comp-cidade-leg" style="font-size:10px;gap:10px;margin-bottom:6px"></div>
+          <div class="chart-box" style="height:190px"><canvas id="c-composicao"></canvas></div>
+        </div>
+      </div>
+
+      <!-- Row 4: benchmarking + plano + notas -->
+      <div class="grid g-bench">
+        <div class="card pad">
+          <div class="section-head"><div class="section-title" id="sec-bench">BENCHMARKING MUNICIPAL (<span class="yr">2033</span>)</div><span class="mini-link">Comparar por: Impacto percentual ▾</span></div>
+          <table class="bench-tbl">
+            <thead><tr><th>Município</th><th>Impacto %</th><th>Impacto (R$ mi)</th><th>Alíquota de eq.</th><th>Risco</th><th>Receita per capita</th></tr></thead>
+            <tbody id="bench-tbody"></tbody>
+          </table>
+        </div>
+
+        <div class="card pad">
+          <div class="section-title" id="sec-plano">PLANO DE AÇÃO MUNICIPAL</div>
+          <div class="plan-grid">
+            <div class="plan-risk">
+              <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3l9 5v6c0 5-4 7-9 7s-9-2-9-7V8z"/></svg></div>
+              <div class="lb">RISCO DE RECEITA</div>
+              <div class="tag" id="plan-risco" style="margin:8px 0">ALTO</div>
+              <div class="im">Impacto estimado:<br><b id="plan-imp">-6,6% em 2033</b><br><span id="plan-imp2">(- R$ 26,0 milhões)</span></div>
+            </div>
+            <div class="plan-actions">
+              <div class="ttl"># Ações recomendadas</div>
+              <ol id="plan-list">
+                <li>Monitorar atividades econômicas de maior exposição (Indústria e Comércio representam 86% do impacto negativo).</li>
+                <li>Avaliar cenários de alíquota e propor estratégia de definição municipal.</li>
+                <li>Acompanhar evolução do consumo no destino e do perfil da economia local.</li>
+                <li>Fortalecer bases econômicas locais e setores de maior valor agregado.</li>
+                <li>Monitorar transição e reavaliar projeções com atualizações normativas.</li>
+              </ol>
+            </div>
+            <div class="plan-report">
+              <div class="ttl">Relatório executivo</div>
+              <p>Gera um relatório completo com os resultados e recomendações para apresentar ao prefeito, secretários e conselheiros.</p>
+              <button class="btn dark" id="btn-pdf" style="width:100%;justify-content:center;margin-bottom:8px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h12l4 4v12H4z"/><path d="M8 12h8M8 16h5"/></svg>Gerar relatório (PDF)</button>
+              <button class="btn" id="btn-share" style="width:100%;justify-content:center"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12v8h16v-8M12 3v13M8 7l4-4 4 4"/></svg>Compartilhar</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="card pad">
+          <div class="section-title">NOTAS TÉCNICAS E LEGISLAÇÃO</div>
+          <div class="notes-list">
+            <div class="note-item"><div class="ni-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h12l4 4v12H4z"/><path d="M8 12h8M8 16h5"/></svg></div><div><b>Notas Técnicas</b><span>Metodologia de cálculo, hipóteses e premissas utilizadas nas projeções.</span></div></div>
+            <div class="note-item"><div class="ni-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v18M5 8l7-5 7 5"/></svg></div><div><b>Legislação aplicada</b><span>EC 132/2023, LC 214/2025 e normas complementares.</span></div></div>
+            <div class="note-item"><div class="ni-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 8v4l3 3M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg></div><div><b>Atualizações normativas</b><span>Acompanhe mudanças que podem impactar as projeções.</span></div></div>
+          </div>
+          <div style="text-align:center;margin-top:12px"><span class="mini-link" id="lnk-metod2">Ver todas notas e documentos →</span></div>
+        </div>
+      </div>
+
+      <!-- ===== Panorama de SC (modelo v2 — gráficos do painel) ===== -->
+      <div style="margin-top:20px" id="sec-panorama">
+        <div class="section-title" style="font-size:17px;color:var(--navy)">PANORAMA DE SANTA CATARINA <span style="font-size:11px;color:var(--muted);font-weight:600">· modelo v2 · pela lei</span></div>
+        <div class="page-sub">Os 295 municípios no ano selecionado (ano-base na barra do topo). Clique no mapa ou troque o município para ver o detalhe.</div>
+      </div>
+      <div class="grid" style="grid-template-columns:1fr 1fr;gap:14px;margin-top:12px">
+        <div class="card pad">
+          <div class="section-title">POR PERFIL ECONÔMICO (<span class="yr">2033</span>)</div>
+          <div style="font-size:10.5px;color:var(--muted);margin:4px 0 10px">Impacto % da receita somada de cada perfil.</div>
+          <div id="pan-perfil"></div>
+        </div>
+        <div class="card pad">
+          <div class="section-title">POR PORTE (<span class="yr">2033</span>)</div>
+          <div style="font-size:10.5px;color:var(--muted);margin:4px 0 10px">Impacto % da receita somada por porte populacional.</div>
+          <div id="pan-porte"></div>
+        </div>
+      </div>
+      <div class="grid" style="grid-template-columns:1fr 1fr;gap:14px;margin-top:14px">
+        <div class="card pad">
+          <div class="section-title">MAIORES PERDAS (<span class="yr">2033</span>)</div>
+          <div style="font-size:10.5px;color:var(--muted);margin:4px 0 8px">Pelo impacto % em relação à receita sem reforma.</div>
+          <ol class="pan-top" id="pan-perdas"></ol>
+        </div>
+        <div class="card pad">
+          <div class="section-title">MAIORES GANHOS (<span class="yr">2033</span>)</div>
+          <div style="font-size:10.5px;color:var(--muted);margin:4px 0 8px">Pelo impacto % em relação à receita sem reforma.</div>
+          <ol class="pan-top" id="pan-ganhos"></ol>
+        </div>
+      </div>
+      <div class="grid" style="grid-template-columns:1fr 1fr;gap:14px;margin-top:14px">
+        <div class="card pad">
+          <div class="section-title">COMPOSIÇÃO DA RECEITA DE SC</div>
+          <div style="font-size:10.5px;color:var(--muted);margin:4px 0 2px">Partes da receita com reforma, 2026→2096 (R$ bi).</div>
+          <div class="legend" id="pan-comp-leg"></div>
+          <div class="chart-box" style="height:200px"><canvas id="pan-comp"></canvas></div>
+        </div>
+        <div class="card pad">
+          <div class="section-title">DIFERENÇA ANO A ANO — SC</div>
+          <div style="font-size:10.5px;color:var(--muted);margin:4px 0 2px">Impacto % da receita somada de SC.</div>
+          <div class="legend" id="pan-dif-leg"></div>
+          <div class="chart-box" style="height:200px"><canvas id="pan-dif"></canvas></div>
+        </div>
+      </div>
+    </section>
+    <!-- ========== VIEW: ESTRUTURA PRODUTIVA E ENCADEAMENTOS ========== -->
+    <section id="view-estrutura" class="hidden">
+      <div>
+        <div class="page-title">ESTRUTURA PRODUTIVA E ENCADEAMENTOS</div>
+        <div class="page-sub">Como os setores da economia de <b id="es-mun">—</b> se conectam, geram valor e respondem à alíquota do IBS.</div>
+      </div>
+
+      <div class="rm-stats es-stats" id="es-stats">
+        <div class="rm-stat" style="--c:#33363d">
+          <div class="top"><div class="k">PIB (nominal)<small id="es-k1-s"></small></div>
+            <div class="badge b-navy"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19V9M10 19V5M16 19v-7M22 19H2"/></svg></div></div>
+          <div class="v" id="es-k1">—</div><div class="n" id="es-k1-n"></div>
+        </div>
+        <div class="rm-stat" style="--c:#2f4566">
+          <div class="top"><div class="k">Valor adicionado (VA)<small id="es-k2-s"></small></div>
+            <div class="badge b-blue"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21h18M5 21V10l7-5 7 5v11M9 21v-6h6v6"/></svg></div></div>
+          <div class="v" id="es-k2">—</div><div class="n" id="es-k2-n"></div>
+        </div>
+        <div class="rm-stat" style="--c:#3d5a45">
+          <div class="top"><div class="k">Empregos formais<small id="es-k3-s"></small></div>
+            <div class="badge b-green"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="7" r="3"/><path d="M2 21v-2a5 5 0 015-5h4a5 5 0 015 5v2M17 8a3 3 0 100-6M22 21v-2a4 4 0 00-3-3.9"/></svg></div></div>
+          <div class="v" id="es-k3">—</div><div class="n" id="es-k3-n"></div>
+        </div>
+        <div class="rm-stat" style="--c:#7a5a2e">
+          <div class="top"><div class="k">Empresas ativas<small id="es-k4-s"></small></div>
+            <div class="badge b-amber"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7V5a2 2 0 012-2h4a2 2 0 012 2v2M3 13h18"/></svg></div></div>
+          <div class="v" id="es-k4">—</div><div class="n" id="es-k4-n"></div>
+        </div>
+        <div class="rm-stat" style="--c:#4b3a6b">
+          <div class="top"><div class="k">Índice de encadeamento<small id="es-k5-s"></small></div>
+            <div class="badge b-purple"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 14a4 4 0 005.7 0l3-3a4 4 0 00-5.7-5.7l-1 1"/><path d="M14 10a4 4 0 00-5.7 0l-3 3a4 4 0 005.7 5.7l1-1"/></svg></div></div>
+          <div class="v" id="es-k5">—</div><div class="n" id="es-k5-n"></div>
+        </div>
+        <div class="rm-stat" style="--c:#2f5d57">
+          <div class="top"><div class="k">Retenção de valor<small id="es-k6-s"></small></div>
+            <div class="badge b-teal"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.6 13.4l-7.2 7.2a2 2 0 01-2.8 0L3 13V3h10l7.6 7.6a2 2 0 010 2.8z"/><circle cx="7.5" cy="7.5" r="1.5"/></svg></div></div>
+          <div class="v" id="es-k6">—</div><div class="n" id="es-k6-n"></div>
+        </div>
+      </div>
+
+      <div class="es-row">
+        <div class="card pad es-flux">
+          <div class="es-head">
+            <div>
+              <div class="rm-title">Fluxos intersetoriais (compras e vendas entre setores)</div>
+              <p class="rm-sub" id="es-flux-sub">Valores em R$ milhões · compras (para trás) e vendas (para frente) entre os setores.</p>
+            </div>
+            <span class="es-selo" id="es-selo">—</span>
+          </div>
+          <div class="es-sankey-wrap" id="es-sankey-wrap">
+            <svg id="es-sankey" preserveAspectRatio="xMidYMid meet" aria-label="Fluxos intersetoriais do município"></svg>
+            <div class="es-flux-msg hidden" id="es-flux-msg">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-7-4.5-7-10a7 7 0 0114 0c0 5.5-7 10-7 10z"/><circle cx="12" cy="11" r="2.5"/></svg>
+              <b>Os fluxos entre setores são calculados por município</b>
+              <span>A matriz insumo-produto é regionalizada para cada um dos 295 municípios; somá-las não representa os fluxos de Santa Catarina. Escolha um município no seletor <b>Município</b> do topo para ver os fornecedores e clientes de cada setor.</span>
+            </div>
+            <div class="rm-tip hidden" id="es-tip"></div>
+          </div>
+        </div>
+
+        <div class="card pad es-va">
+          <div class="rm-title">Distribuição do valor adicionado por setor</div>
+          <p class="rm-sub" id="es-va-sub">Participação de cada setor no valor adicionado total do município.</p>
+          <div class="es-va-body">
+            <div class="rm-donut es-donut"><canvas id="es-donut"></canvas><div class="rm-donut-c"><span>Total</span><b id="es-donut-tot">—</b><span id="es-donut-ano">—</span></div></div>
+            <div class="rm-dist-leg es-va-leg" id="es-va-leg"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card pad es-sens">
+        <div class="es-head">
+          <div>
+            <div class="rm-title">Sensibilidade da receita à alíquota do IBS (<span id="es-sens-ano">2033</span>)</div>
+            <p class="rm-sub">Receita com a reforma (pela lei) conforme a alíquota total do IBS · R$ milhões de 2025.</p>
+          </div>
+          <div class="legend tr-legend sm" id="es-sens-leg"></div>
+        </div>
+        <div class="es-sens-grid">
+          <div class="chart-box es-sens-box"><canvas id="es-sens"></canvas></div>
+          <div class="es-figs" id="es-figs"></div>
+        </div>
+        <div class="es-note" id="es-sens-note"></div>
+      </div>
+      <div class="es-foot" id="es-foot"></div>
+    </section>
+
+    <!-- ========== VIEW: DECOMPOSIÇÃO SETORIAL DO IMPACTO ========== -->
+    <section id="view-setorial" class="hidden">
+      <div class="ds-top">
+        <div>
+          <div class="page-title">DECOMPOSIÇÃO SETORIAL DO IMPACTO (<span class="yr">2033</span>)</div>
+          <div class="page-sub">Entenda quais setores econômicos explicam o ganho ou a perda de receita com a Reforma Tributária · <b id="ds-escopo">—</b></div>
+        </div>
+        <label class="ds-ver">Ver por
+          <select id="ds-modo">
+            <option value="rs">Impacto financeiro (R$)</option>
+            <option value="pp">Contribuição em p.p. do impacto %</option>
+          </select>
+        </label>
+      </div>
+
+      <div class="ds-row1">
+        <div class="card pad ds-card">
+          <div class="rm-title">Contribuição setorial para o impacto (<span class="yr">2033</span>)</div>
+          <p class="rm-sub" id="ds-wf-sub">Impacto financeiro de cada setor na arrecadação · R$ milhões de 2025.</p>
+          <div class="legend tr-legend sm"><span><i style="background:#7a3b35"></i>Perda</span><span><i style="background:#3d5a45"></i>Ganho</span><span><i style="background:#33363d"></i>Total</span></div>
+          <div class="chart-box ds-wf-box"><canvas id="ds-wf"></canvas></div>
+        </div>
+        <div class="card pad ds-card">
+          <div class="rm-title">Impacto por setor (<span class="yr">2033</span>)</div>
+          <p class="rm-sub">Receita sem e com a reforma (pela lei), por setor econômico · R$ milhões de 2025.</p>
+          <div class="ds-tbl-wrap"><table class="ds-tbl"><thead><tr><th>Setor econômico</th><th>Sem reforma<br><small><span class="yr">2033</span></small></th><th>Com reforma<br><small><span class="yr">2033</span></small></th><th class="c">Impacto financeiro (R$ mi)</th><th>Impacto %</th></tr></thead><tbody id="ds-tbody"></tbody></table></div>
+        </div>
+      </div>
+
+      <div class="ds-row2">
+        <div class="card pad ds-card">
+          <div class="rm-title">Participação dos setores na receita (<span class="yr">2033</span>)</div>
+          <p class="rm-sub">Composição da arrecadação com a reforma, por setor.</p>
+          <div class="ds-donut-body">
+            <div class="rm-donut ds-donut"><canvas id="ds-donut"></canvas><div class="rm-donut-c"><b id="ds-donut-tot">—</b><span>Receita com reforma</span><span id="ds-donut-ano">—</span></div></div>
+            <div class="rm-dist-leg ds-leg" id="ds-leg"></div>
+          </div>
+        </div>
+        <div class="card pad ds-card">
+          <div class="es-head">
+            <div>
+              <div class="rm-title">Evolução do impacto por setor</div>
+              <p class="rm-sub" id="ds-evo-sub">Contribuição de cada setor para o impacto, ano a ano · R$ milhões de 2025.</p>
+            </div>
+            <div class="legend tr-legend sm" id="ds-evo-leg"></div>
+          </div>
+          <div class="chart-box ds-evo-box"><canvas id="ds-evo"></canvas></div>
+        </div>
+      </div>
+      <div class="es-foot" id="ds-foot"></div>
+
+    </section>
+
+    <!-- ========== VIEW: SIMULADOR DE INVESTIMENTO (T3.5) ========== -->
+    <section id="view-investimento" class="hidden">
+      <div>
+        <div class="page-title">SIMULADOR DE IMPULSIONAMENTO</div>
+        <div class="page-sub">Se <b id="iv-mun">—</b> atrair um investimento em um setor, quanto volta de receita para a prefeitura — sem reforma, pela lei e só pelo consumo?</div>
+      </div>
+
+      <div class="iv-row1">
+        <div class="rm-stat iv-ctrl" style="--c:#2c0e5e">
+          <div class="top"><div class="k" style="color:#2c0e5e">Simule o impulsionamento<small>Vendas finais novas, mantidas todos os anos</small></div>
+            <div class="badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v10M9.5 9.5h3.75a1.75 1.75 0 010 3.5h-2.5a1.75 1.75 0 000 3.5H15"/></svg></div></div>
+          <div class="iv-f iv-f-mun hidden" id="iv-mun-wrap"><label for="iv-mun-sel">Município</label><select id="iv-mun-sel"></select></div>
+          <div class="iv-f">
+            <div class="iv-lab-row"><label id="iv-alvo-lab">Setor</label><div class="cp-seg iv-seg" id="iv-nivel"><button data-n="set" class="on">Setor (6)</button><button data-n="atv">Atividade (67)</button></div></div>
+            <div class="iv-boxes" id="iv-boxes" role="radiogroup" aria-labelledby="iv-alvo-lab"></div>
+            <select id="iv-alvo" class="hidden" aria-labelledby="iv-alvo-lab"></select>
+          </div>
+          <div class="iv-f">
+            <label for="iv-x">Impulsionamento <span id="iv-x-alvo">no setor</span> <small>(R$ milhões por ano)</small></label>
+            <div class="iv-x-row"><input type="range" id="iv-x-range"><div class="iv-x-num"><span>R$</span><input type="number" id="iv-x"><span>mi</span></div></div>
+          </div>
+          <div class="iv-f iv-f-ano"><label for="iv-ini">A partir do ano</label><select id="iv-ini"></select></div>
+        </div>
+        <div class="rm-stat iv-rec" style="--c:#5b6270">
+          <div class="top"><div class="k" style="color:#5b6270">Sem reforma<small>Receita adicional em <span class="yr">2033</span></small></div><div class="badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 7h8M8 11h8M8 15h5"/></svg></div></div>
+          <div class="v" id="iv-sem">—</div>
+          <div class="n" id="iv-sem-pct"></div>
+          <div class="iv-cmpv" id="iv-sem-cmp"></div>
+          <div class="iv-bars" id="iv-sem-bars"></div>
+          <div class="iv-acc" id="iv-sem-acc"></div>
+        </div>
+        <div class="rm-stat iv-rec" style="--c:#2c0e5e">
+          <div class="top"><div class="k" style="color:#2c0e5e">Pela lei<small>Receita adicional em <span class="yr">2033</span></small></div><div class="badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v18M5 7h14M5 7l-3 7a3 3 0 006 0zM19 7l-3 7a3 3 0 006 0zM8 21h8"/></svg></div></div>
+          <div class="v" id="iv-lei">—</div>
+          <div class="n" id="iv-lei-pct"></div>
+          <div class="iv-cmpv" id="iv-lei-cmp"></div>
+          <div class="iv-bars" id="iv-lei-bars"></div>
+          <div class="iv-acc" id="iv-lei-acc"></div>
+        </div>
+        <div class="rm-stat iv-rec" style="--c:#2f5d57">
+          <div class="top"><div class="k" style="color:#2f5d57">Só pelo consumo<small>Receita adicional em <span class="yr">2033</span></small></div><div class="badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l9-7 9 7v9a1 1 0 01-1 1h-5v-6H9v6H4a1 1 0 01-1-1z"/></svg></div></div>
+          <div class="v" id="iv-cs">—</div>
+          <div class="n" id="iv-cs-pct"></div>
+          <div class="iv-cmpv" id="iv-cs-cmp"></div>
+          <div class="iv-bars" id="iv-cs-bars"></div>
+          <div class="iv-acc" id="iv-cs-acc"></div>
+        </div>
+      </div>
+
+      <div class="iv-row2">
+        <div class="card pad iv-card">
+          <div class="es-head">
+            <div>
+              <div class="rm-title">Receita adicional por ano</div>
+              <p class="rm-sub" id="iv-evo-sub">—</p>
+            </div>
+            <div class="legend tr-legend sm"><span><i class="dash" style="border-top-color:#9aa6b2"></i>Sem reforma</span><span><i style="background:#2c0e5e"></i>Pela lei</span><span><i style="background:#2f5d57"></i>Só pelo consumo</span></div>
+          </div>
+          <div class="chart-box iv-evo-box"><canvas id="iv-evo"></canvas></div>
+          <div class="iv-note" id="iv-evo-note"></div>
+        </div>
+        <div class="iv-efx">
+          <div class="rm-stat iv-stat" style="--c:#33363d">
+            <div class="top"><div class="k">Produção local</div><div class="badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21V10l5 3V10l5 3V10l5 3V4h3v17z"/></svg></div></div>
+            <div class="v" id="iv-prod">—</div><div class="n" id="iv-prod-n"></div>
+          </div>
+          <div class="rm-stat iv-stat" style="--c:#3d5a45">
+            <div class="top"><div class="k">Valor adicionado local</div><div class="badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17l6-6 4 4 8-8"/><path d="M17 7h4v4"/></svg></div></div>
+            <div class="v" id="iv-va">—</div><div class="n" id="iv-va-n"></div>
+          </div>
+          <div class="rm-stat iv-stat" style="--c:#7a3b35">
+            <div class="top"><div class="k">VA que sai do município</div><div class="badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 4h6v6M20 4l-9 9"/><path d="M18 14v5a1 1 0 01-1 1H5a1 1 0 01-1-1V7a1 1 0 011-1h5"/></svg></div></div>
+            <div class="v" id="iv-out">—</div><div class="n" id="iv-out-n"></div>
+          </div>
+          <div class="rm-stat iv-stat" style="--c:#4b3a6b">
+            <div class="top"><div class="k">Salários</div><div class="badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="20" height="12" rx="2"/><circle cx="12" cy="12" r="2.5"/><path d="M6 10v4M18 10v4"/></svg></div></div>
+            <div class="v" id="iv-sal">—</div><div class="n" id="iv-sal-n"></div>
+          </div>
+          <div class="rm-stat iv-stat" style="--c:#2f4566">
+            <div class="top"><div class="k">Empregos</div><div class="badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c.6-3.6 3.2-5.5 6.5-5.5s5.9 1.9 6.5 5.5"/><path d="M16 4.5a3.5 3.5 0 010 7M18.5 14.8c1.7.8 2.7 2.5 3 5.2"/></svg></div></div>
+            <div class="v" id="iv-emp">—</div><div class="n" id="iv-emp-n"></div>
+          </div>
+          <div class="rm-stat iv-stat" style="--c:#7a5a2e">
+            <div class="top"><div class="k">Consumo das famílias</div><div class="badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6h15l-1.5 9H8L6 3H3"/><circle cx="9" cy="20" r="1"/><circle cx="18" cy="20" r="1"/></svg></div></div>
+            <div class="v" id="iv-cons">—</div><div class="n" id="iv-cons-n"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="iv-row3">
+        <div class="card pad iv-card">
+          <div class="rm-title">Valor adicionado por setor</div>
+          <p class="rm-sub" id="iv-va-sub">—</p>
+          <div class="iv-va-body">
+            <div class="rm-donut iv-donut"><canvas id="iv-donut"></canvas><div class="rm-donut-c"><b id="iv-donut-pct">—</b><span id="iv-donut-lab">—</span></div></div>
+            <div class="rm-dist-leg iv-leg" id="iv-va-leg"></div>
+          </div>
+        </div>
+        <div class="card pad iv-card">
+          <div class="es-head">
+            <div>
+              <div class="rm-title">Qual setor devolve mais receita? (<span class="yr"></span>)</div>
+              <p class="rm-sub" id="iv-cmp-sub">—</p>
+            </div>
+            <div class="legend tr-legend sm"><span><i style="background:#c3cad3"></i>Sem reforma</span><span><i style="background:#2c0e5e"></i>Pela lei</span><span><i style="background:#2f5d57"></i>Só pelo consumo</span></div>
+          </div>
+          <div class="chart-box iv-cmp-box"><canvas id="iv-cmp"></canvas></div>
+        </div>
+      </div>
+      <div class="es-foot" id="iv-foot"></div>
+    </section>
+
+    <!-- ========== VIEW: BENCHMARKING MUNICIPAL ========== -->
+    <section id="view-benchmark" class="hidden">
+      <div>
+        <div class="page-title">BENCHMARKING MUNICIPAL (<span class="yr">2033</span>)</div>
+        <div class="page-sub">Compare o impacto da reforma e o perfil econômico entre municípios de Santa Catarina.</div>
+      </div>
+      <div class="bm-row1">
+        <div class="card pad ds-card">
+          <div class="rm-title">Comparativo de indicadores-chave (<span class="yr">2033</span>)</div>
+          <p class="rm-sub">Receitas pela lei na alíquota padrão do modelo · R$ milhões de 2025. Clique no nome de um município para selecioná-lo.</p>
+          <div class="ds-tbl-wrap"><table class="bm-tbl" id="bm-tbl"></table></div>
+        </div>
+        <div class="card pad ds-card">
+          <div class="rm-title">Perfil econômico comparativo</div>
+          <p class="rm-sub" id="bm-radar-sub">Composição do PIB (%) por setor.</p>
+          <div class="bm-pick">
+            <label><span class="bm-dot" style="background:#2f4566"></span><select id="bm-a"></select></label>
+            <span class="bm-vs">×</span>
+            <label><span class="bm-dot" style="background:#7a5a2e"></span><select id="bm-b"></select></label>
+          </div>
+          <div class="chart-box bm-radar-box"><canvas id="bm-radar"></canvas></div>
+          <div class="legend tr-legend sm bm-radar-leg" id="bm-radar-leg"></div>
+        </div>
+      </div>
+      <div class="bm-row2">
+        <div class="card pad ds-card">
+          <div class="rm-title">Municípios mais afetados (<span class="yr">2033</span>)</div>
+          <div class="rm-tabs" id="bm-tabs">
+            <button type="button" data-t="perdas" class="on">Maiores perdas</button>
+            <button type="button" data-t="ganhos">Maiores ganhos</button>
+          </div>
+          <ol class="rm-rank-list bm-list" id="bm-mais"></ol>
+          <button class="btn rm-foot-btn" id="bm-mais-more" type="button">Ver ranking completo →</button>
+        </div>
+        <div class="card pad ds-card">
+          <div class="rm-title">Municípios menos afetados (<span class="yr">2033</span>)</div>
+          <p class="rm-sub">Menor impacto percentual, para mais ou para menos.</p>
+          <ol class="rm-rank-list bm-list" id="bm-menos"></ol>
+          <button class="btn rm-foot-btn" id="bm-menos-more" type="button">Ver ranking completo →</button>
+        </div>
+      </div>
+      <div class="es-foot" id="bm-foot"></div>
+    </section>
+
+    <!-- ========== VIEW: METODOLOGIA, DADOS E LEGISLAÇÃO ========== -->
+    <section id="view-metodologia" class="hidden">
+      <div>
+        <div class="page-title">METODOLOGIA, DADOS E LEGISLAÇÃO</div>
+        <div class="page-sub">Entenda como os cálculos são feitos, quais dados são utilizados e a base legal da Reforma Tributária.</div>
+      </div>
+
+      <div class="mt-full">
+        <div class="card pad mt-card">
+          <div class="rm-title">Como funciona o simulador</div>
+          <p class="rm-sub">Fluxo simplificado do cálculo do impacto da Reforma Tributária.</p>
+          <div class="mt-fluxo" id="mt-fluxo"></div>
+        </div>
+      </div>
+      <div class="mt-row3">
+        <div class="card pad mt-card">
+          <div class="rm-title">Premissas gerais utilizadas</div>
+          <ul class="mt-lista" id="mt-premissas"></ul>
+          <button class="btn rm-foot-btn" id="mt-premissas-more" type="button">Ver todas as premissas →</button>
+        </div>
+        <div class="card pad mt-card">
+          <div class="rm-title">Limitações do modelo</div>
+          <ul class="mt-lista lim" id="mt-limitacoes"></ul>
+          <button class="btn rm-foot-btn" id="mt-limitacoes-more" type="button">Entenda as limitações →</button>
+        </div>
+        <div class="card pad mt-card">
+          <div class="rm-title">Histórico de versões do modelo</div>
+          <p class="rm-sub">Acompanhe as versões e melhorias.</p>
+          <div class="mt-versoes" id="mt-versoes"></div>
+        </div>
+      </div>
+      <div class="mt-row2">
+        <div class="card pad mt-card">
+          <div class="rm-title">Bases de dados utilizadas</div>
+          <p class="rm-sub">Principais bases públicas integradas ao modelo.</p>
+          <div class="ds-tbl-wrap"><table class="mt-fontes"><thead><tr><th>Fonte</th><th>Descrição</th><th>Período de referência</th><th>Atualização</th><th>Cobertura</th><th></th></tr></thead><tbody id="mt-fontes"></tbody></table></div>
+        </div>
+        <div class="card pad mt-card">
+          <div class="rm-title">Documentos e publicações</div>
+          <p class="rm-sub">Documentos técnicos e notas metodológicas do modelo. Clique para ler.</p>
+          <div class="mt-docs" id="mt-docs"></div>
+        </div>
+      </div>
+      <div class="mt-full">
+        <div class="card pad mt-card">
+          <div class="rm-title">Metodologia de cálculo</div>
+          <p class="rm-sub">O modelo segue as etapas abaixo para estimar o impacto da Reforma Tributária.</p>
+          <div class="mt-etapas" id="mt-etapas"></div>
+          <button class="btn rm-foot-btn" id="mt-metod-doc" type="button">Ver metodologia completa (documento técnico) →</button>
+        </div>
+      </div>
+
+      <div class="mt-aviso"><span class="ni">ⓘ</span><span>Este simulador é uma ferramenta de apoio à gestão fiscal e ao planejamento estratégico dos municípios. As projeções não substituem o planejamento fiscal municipal.</span><span class="mt-ver" id="mt-ver"></span></div>
+    </section>
+
+    <!-- ========== VIEW: TRANSIÇÃO 2026–2033 ========== -->
+    <section id="view-transicao" class="hidden">
+      <div>
+        <div class="page-title">TRANSIÇÃO DA REFORMA TRIBUTÁRIA 2026–2078</div>
+        <div class="page-sub">Evolução anual da arrecadação e composição dos tributos durante o período de transição · <span id="tr-sub">—</span></div>
+      </div>
+
+      <!-- indicadores -->
+      <div class="rm-stats tr-stats">
+        <div class="rm-stat" style="--c:#33363d">
+          <div class="top"><div class="k">Receita total 2026<small id="tr-k1-s">cenário Base</small></div>
+            <div class="badge b-navy"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="8"/><path d="M14.5 9.5c-.5-1-1.5-1.5-2.5-1.5-1.4 0-2.5.8-2.5 2s1 1.7 2.5 2 2.5.8 2.5 2-1.1 2-2.5 2c-1 0-2-.5-2.5-1.5M12 6.5V8M12 16v1.5"/></svg></div></div>
+          <div class="v v-navy" id="tr-k1">—</div><div class="n" id="tr-k1-n"></div>
+        </div>
+        <div class="rm-stat" style="--c:#2f4566">
+          <div class="top"><div class="k">Receita total 2033<small id="tr-k2-s">cenário Base</small></div>
+            <div class="badge b-blue"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 10h18M7 15h4"/></svg></div></div>
+          <div class="v v-blue" id="tr-k2">—</div><div class="n" id="tr-k2-n"></div>
+        </div>
+        <div class="rm-stat" style="--c:#3d5a45">
+          <div class="top"><div class="k">Variação 2026–2078<small>receita com reforma</small></div>
+            <div class="badge b-green"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 20V14M9 20V10M14 20V12M19 20V6"/><path d="M4 10l5-4 5 3 6-5"/></svg></div></div>
+          <div class="v v-green" id="tr-k3">—</div><div class="n" id="tr-k3-n"></div>
+        </div>
+        <div class="rm-stat" style="--c:#7a3b35">
+          <div class="top"><div class="k">Impacto acumulado no período<small>com reforma − sem reforma</small></div>
+            <div class="badge b-coral" id="tr-k4-b"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6l7 7 3-3 6 6"/><path d="M20 11v5h-5"/></svg></div></div>
+          <div class="v v-coral" id="tr-k4">—</div><div class="n" id="tr-k4-n"></div>
+        </div>
+        <div class="rm-stat" style="--c:#4b3a6b">
+          <div class="top"><div class="k">Ano de equilíbrio (receita)<small>com reforma = sem reforma</small></div>
+            <div class="badge b-purple"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v18M6 7h12M4 11l3-4 3 4a3 3 0 01-6 0zM14 11l3-4 3 4a3 3 0 01-6 0zM8 21h8"/></svg></div></div>
+          <div class="v" id="tr-k5" style="color:#4b3a6b">—</div><div class="n" id="tr-k5-n"></div>
+        </div>
+      </div>
+
+      <!-- linha principal: gráficos (esquerda) + parâmetros do cenário (direita) -->
+      <div class="tr2-main">
+        <div class="tr2-left">
+          <div class="card pad tr-chartcard">
+            <div class="tr-chart-head">
+              <div class="rm-title" id="tr-chart-title">Arrecadação total e composição por tributo</div>
+              <span class="mini-link" id="tr-metod">Metodologia da transição →</span>
+            </div>
+            <div class="legend tr-legend" id="tr-legend"></div>
+            <div class="tr-unit-lbl" id="tr-unit-lbl">R$ milhões</div>
+            <div class="chart-box tr-box" id="tr-box"><canvas id="tr-chart"></canvas></div>
+            <div class="tr-table-wrap hidden" id="tr-table-wrap">
+              <table class="of-tbl tr-table"><thead><tr><th>Ano</th><th>ICMS + ISS</th><th>IBS</th><th>Com reforma</th><th>Sem reforma</th><th>Diferença</th><th>Dif. %</th><th>Acumulado</th></tr></thead><tbody id="tr-table"></tbody></table>
+            </div>
+          </div>
+
+          <div class="tr-bl">
+            <div class="card pad">
+              <div class="rm-title">Diferença acumulada em relação ao cenário-base</div>
+              <div class="tr-unit-lbl" id="tr-acc-unit">R$ milhões</div>
+              <div class="chart-box tr-acc-box"><canvas id="tr-acc"></canvas></div>
+              <div class="legend tr-legend sm"><span><i style="background:#e3cdc9;box-shadow:inset 0 0 0 1px #7a3b35"></i>Diferença acumulada (com reforma − sem reforma)</span></div>
+            </div>
+            <div class="card pad">
+              <div class="rm-title">Indicadores da transição</div>
+              <div class="tr-ind" id="tr-ind"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card pad tr-params">
+          <div class="tr-params-head">
+            <div class="section-title">PARÂMETROS DO CENÁRIO</div>
+            <button class="btn" id="tr-reset" type="button">↺ Redefinir para o cenário base</button>
+          </div>
+          <div class="tr-params-grid">
+            <div class="tr-sliders">
+              <div class="param tr-param">
+                <div class="head"><span class="pic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 17l6-6 4 4 8-8"/><path d="M17 7h4v4"/></svg></span>Crescimento econômico anual</div>
+                <div class="value" data-trv="eco">—</div>
+                <input class="range tr-range" type="range" min="-1" max="6" step="0.1" data-k="eco" aria-label="Crescimento econômico anual">
+                <div class="ticks"><span>-1%</span><span>0%</span><span>2%</span><span>4%</span><span>6%</span></div>
+              </div>
+              <div class="param tr-param">
+                <div class="head"><span class="pic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 6h15l-1.5 9H8L6 3H3"/><circle cx="9" cy="20" r="1"/><circle cx="18" cy="20" r="1"/></svg></span>Crescimento do consumo anual</div>
+                <div class="value" data-trv="cons">—</div>
+                <input class="range tr-range" type="range" min="-1" max="6" step="0.1" data-k="cons" aria-label="Crescimento do consumo anual">
+                <div class="ticks"><span>-1%</span><span>0%</span><span>2%</span><span>4%</span><span>6%</span></div>
+              </div>
+              <div class="param tr-param">
+                <div class="head"><span class="pic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="7" r="3"/><path d="M2 21v-2a5 5 0 015-5h4a5 5 0 015 5v2M17 8a3 3 0 100-6"/></svg></span>Crescimento populacional anual</div>
+                <div class="value" data-trv="pop">—</div>
+                <input class="range tr-range" type="range" min="-1" max="3" step="0.1" data-k="pop" aria-label="Crescimento populacional anual">
+                <div class="ticks"><span>-1%</span><span>0%</span><span>1%</span><span>2%</span><span>3%</span></div>
+              </div>
+              <div class="param tr-param">
+                <div class="head"><span class="pic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="7" cy="7" r="3"/><circle cx="17" cy="17" r="3"/><path d="M18 6L6 18"/></svg></span>Alíquota de IBS total (hipótese)</div>
+                <div class="value" data-trv="ibs">—</div>
+                <input class="range tr-range" type="range" min="10" max="25" step="0.1" data-k="ibs" aria-label="Alíquota de IBS total (hipótese)">
+                <div class="ticks"><span>10%</span><span>15%</span><span>18,7%</span><span>20%</span><span>25%</span></div>
+              </div>
+            </div>
+            <div class="tr-side2">
+              <div class="scenarios" id="tr-scen">
+                <div class="scen-card" data-preset="conservador">
+                  <div class="ic" style="background:var(--teal-soft);color:var(--teal)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3l9 5v6c0 5-4 7-9 7s-9-2-9-7V8z"/></svg></div>
+                  <div class="nm">Cenário Conservador</div>
+                  <div class="ds">Menor crescimento econômico e de consumo.</div>
+                  <div class="ib">IBS total: 17,5%</div>
+                </div>
+                <div class="scen-card" data-preset="base">
+                  <div class="ic" style="background:#e8eaef;color:var(--blue)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 17l6-6 4 4 8-8"/></svg></div>
+                  <div class="nm">Cenário Base</div>
+                  <div class="ds">Parâmetros médios de crescimento.</div>
+                  <div class="ib">IBS total: 18,7%</div>
+                </div>
+                <div class="scen-card" data-preset="otimista">
+                  <div class="ic" style="background:#ebe8f0;color:var(--purple)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3l2.5 6H21l-5 4 2 7-6-4-6 4 2-7-5-4h6.5z"/></svg></div>
+                  <div class="nm">Cenário Otimista</div>
+                  <div class="ds">Maior crescimento econômico e de consumo.</div>
+                  <div class="ib">IBS total: 20,0%</div>
+                </div>
+              </div>
+              <div class="tr-view">
+                <div class="tr-view-lbl">Visualização do gráfico</div>
+                <div class="tr-vtabs" id="tr-tabs">
+                  <button data-t="evo" class="on">Evolução anual (valores)</button>
+                  <button data-t="comp">Composição (%)</button>
+                  <button data-t="dif">Diferença para cenário-base</button>
+                  <button data-t="tab">Tabela detalhada</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="tr-params-foot"><span class="mini-link" id="tr-prem">Como os parâmetros entram no cálculo →</span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== VIEW: MAPA DE RISCO MUNICIPAL ========== -->
+    <section id="view-mapa" class="hidden">
+      <div>
+        <div class="page-title">VISÃO GERAL · <span id="rm-escopo">SANTA CATARINA</span></div>
+        <div class="page-sub">Mapa de risco municipal · Índice de Exposição à Reforma Tributária (<span class="yr">2033</span>) · <span id="rm-cen-lbl">cenário Base</span></div>
+      </div>
+
+      <!-- Linha 1: indicadores do município selecionado -->
+      <div class="rm-stats">
+        <div class="rm-stat" style="--c:#33363d">
+          <div class="top"><div class="k">Receita atual projetada<small>(cenário sem reforma)</small></div>
+            <div class="badge b-teal"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19V9M10 19V5M16 19v-7M22 19H2"/></svg></div></div>
+          <div class="v v-navy" id="rm-s-sem">—</div>
+          <div class="n">cota-parte do ICMS + ISS</div>
+        </div>
+        <div class="rm-stat" style="--c:#2f4566">
+          <div class="top"><div class="k">Receita com a Reforma<small>(<span class="yr">2033</span>)</small></div>
+            <div class="badge b-navy"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21h18M5 21V10l7-5 7 5v11M9 21v-6h6v6"/></svg></div></div>
+          <div class="v v-blue" id="rm-s-com">—</div>
+          <div class="n">pela lei, com seguro-receita</div>
+        </div>
+        <div class="rm-stat" style="--c:#7a3b35">
+          <div class="top"><div class="k">Impacto estimado<small>(<span class="yr">2033</span>)</small></div>
+            <div class="badge b-coral" id="rm-s-imp-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M6 13l6 6 6-6"/></svg></div></div>
+          <div class="v v-coral" id="rm-s-imp">—</div>
+          <div class="n">com reforma − sem reforma</div>
+        </div>
+        <div class="rm-stat" style="--c:#7a5a2e">
+          <div class="top"><div class="k">Impacto percentual<small>(<span class="yr">2033</span>)</small></div>
+            <div class="badge b-coral" id="rm-s-pct-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="7" cy="7" r="3"/><circle cx="17" cy="17" r="3"/><path d="M18 6L6 18"/></svg></div></div>
+          <div class="v v-coral" id="rm-s-pct">—</div>
+          <div class="n" id="rm-s-pct-n"></div>
+        </div>
+        <div class="rm-stat" style="--c:#3d5a45">
+          <div class="top"><div class="k">Alíquota de equilíbrio<small>(estimada · <span class="yr">2033</span>)</small></div>
+            <div class="badge b-green"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v18M6 7h12M4 11l3-4 3 4a3 3 0 01-6 0zM14 11l3-4 3 4a3 3 0 01-6 0z"/></svg></div></div>
+          <div class="v v-green" id="rm-s-eq">—</div>
+          <div class="n" id="rm-s-eq-n"></div>
+        </div>
+        <div class="rm-stat" style="--c:#4b3a6b">
+          <div class="top"><div class="k">Classificação de risco<small>(exposição à reforma)</small></div>
+            <div class="badge b-purple"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3l9 5v6c0 5-4 7-9 7s-9-2-9-7V8z"/></svg></div></div>
+          <div class="v"><span class="rm-tag" id="rm-s-risco">—</span></div>
+          <div class="n" id="rm-s-risco-n"></div>
+        </div>
+      </div>
+
+      <!-- Linha 2: mapa (esquerda) + ranking e distribuição (direita) -->
+      <div class="rm-main">
+        <div class="card pad rm-mapcard">
+          <div class="rm-map-grid">
+            <div class="rm-map-side">
+              <div class="rm-title">Índice de risco por município</div>
+              <p class="rm-sub">Classificação baseada no impacto percentual estimado da reforma em <span class="yr">2033</span>.</p>
+              <div class="rm-legend" id="rm-legend"></div>
+              <button class="btn rm-entenda" id="rm-entenda" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/></svg>Entenda o índice</button>
+            </div>
+            <div class="rm-map-wrap" id="rm-map-wrap">
+              <svg id="rm-map" viewBox="0 0 1000 696.1" preserveAspectRatio="xMidYMid meet" aria-label="Mapa de risco dos municípios de Santa Catarina"></svg>
+              <div class="rm-tip hidden" id="rm-tip"></div>
+              <div class="rm-ctrl">
+                <button type="button" data-z="home" title="Ver SC inteiro"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 11l9-7 9 7M5 10v10h14V10"/></svg></button>
+                <button type="button" data-z="in" title="Aproximar">+</button>
+                <button type="button" data-z="out" title="Afastar">−</button>
+                <button type="button" data-z="sel" title="Centralizar no município selecionado"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 2v4M12 18v4M2 12h4M18 12h4"/></svg></button>
+              </div>
+            </div>
+          </div>
+          <div class="rm-map-foot"><span id="rm-fonte">Fonte: modelo v2 (dados_reforma_v2) · 2033</span><span>Clique em um município para ver os detalhes.</span></div>
+        </div>
+
+        <div class="rm-side">
+          <div class="card pad rm-rank">
+            <div class="rm-title">Ranking de impacto percentual (<span class="yr">2033</span>)</div>
+            <div class="rm-tabs" id="rm-tabs">
+              <button type="button" data-t="perdas" class="on">Maiores perdas</button>
+              <button type="button" data-t="ganhos">Maiores ganhos</button>
+            </div>
+            <ol class="rm-rank-list" id="rm-rank-list"></ol>
+            <button class="btn rm-foot-btn" id="rm-rank-more" type="button">Ver ranking completo →</button>
+          </div>
+
+          <div class="card pad rm-dist">
+            <div class="rm-title">Distribuição dos municípios por classe de risco</div>
+            <p class="rm-sub">Número de municípios por classificação de risco.</p>
+            <div class="rm-dist-body">
+              <div class="rm-donut"><canvas id="rm-donut"></canvas><div class="rm-donut-c"><b id="rm-donut-n">295</b><span>municípios</span></div></div>
+              <div class="rm-dist-leg" id="rm-dist-leg"></div>
+            </div>
+            <button class="btn rm-foot-btn" id="rm-dist-metod" type="button">Ver metodologia do índice →</button>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ========== VIEW: SIMULATOR ========== -->
+    <section id="view-simulator" class="hidden">
+      <div>
+        <div class="page-title">SIMULADOR DE CENÁRIOS</div>
+        <div class="page-sub">Altere os parâmetros abaixo e veja o impacto estimado da Reforma Tributária até <span class="yr">2033</span>.</div>
+      </div>
+
+      <div class="sim-layout">
+        <div class="sim-left">
+        <!-- params -->
+        <div class="card pad">
+          <div class="section-head">
+            <div class="section-title">PARÂMETROS DO CENÁRIO</div>
+            <span class="mini-link">Entenda os parâmetros ⓘ</span>
+          </div>
+          <div class="params-grid">
+            <div class="param">
+              <div class="head"><span class="pic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 17l6-6 4 4 8-8"/><path d="M17 7h4v4"/></svg></span>Crescimento econômico anual<span class="q">ⓘ</span></div>
+              <div class="value" data-out="eco">2,5%</div>
+              <input class="range" type="range" min="-1" max="6" step="0.1" value="2.5" data-fill data-out-target="eco" data-suffix="%" data-key="eco">
+              <div class="ticks"><span>-1%</span><span>0%</span><span>2%</span><span>4%</span><span>6%</span></div>
+            </div>
+            <div class="param">
+              <div class="head"><span class="pic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 6h15l-1.5 9H8L6 3H3"/><circle cx="9" cy="20" r="1"/><circle cx="18" cy="20" r="1"/></svg></span>Crescimento do consumo anual<span class="q">ⓘ</span></div>
+              <div class="value" data-out="cons">3,1%</div>
+              <input class="range" type="range" min="-1" max="6" step="0.1" value="3.1" data-fill data-out-target="cons" data-suffix="%" data-key="cons">
+              <div class="ticks"><span>-1%</span><span>0%</span><span>2%</span><span>4%</span><span>6%</span></div>
+            </div>
+            <div class="param">
+              <div class="head"><span class="pic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="7" r="3"/><path d="M2 21v-2a5 5 0 015-5h4a5 5 0 015 5v2M17 8a3 3 0 100-6"/></svg></span>Crescimento populacional anual<span class="q">ⓘ</span></div>
+              <div class="value" data-out="pop">1,2%</div>
+              <input class="range" type="range" min="-1" max="3" step="0.1" value="1.2" data-fill data-out-target="pop" data-suffix="%" data-key="pop">
+              <div class="ticks"><span>-1%</span><span>0%</span><span>1%</span><span>2%</span><span>3%</span></div>
+            </div>
+            <div class="param">
+              <div class="head"><span class="pic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="7" cy="7" r="3"/><circle cx="17" cy="17" r="3"/><path d="M18 6L6 18"/></svg></span>Alíquota de IBS total (hipótese)<span class="q">ⓘ</span></div>
+              <div class="value" data-out="ibs">18,70%</div>
+              <input class="range" type="range" min="10" max="25" step="0.1" value="18.7" data-fill data-out-target="ibs" data-suffix="%" data-key="ibs">
+              <div class="ticks"><span>10%</span><span>15%</span><span>18,7%</span><span>20%</span><span>25%</span></div>
+            </div>
+            <div class="param">
+              <div class="head"><span class="pic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-7-4.5-7-10a7 7 0 0114 0c0 5.5-7 10-7 10z"/><circle cx="12" cy="11" r="2.5"/></svg></span>Participação do consumo local<span class="q">ⓘ</span></div>
+              <div class="value" data-out="loc">100%</div>
+              <input class="range" type="range" min="80" max="120" step="1" value="100" data-fill data-out-target="loc" data-suffix="%" data-int data-key="loc">
+              <div class="ticks"><span>80%</span><span>90%</span><span>100%</span><span>110%</span><span>120%</span></div>
+            </div>
+          </div>
+          <div class="params-actions">
+            <span class="more"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 21v-7M4 10V3M12 21v-9M12 8V3M20 21v-5M20 12V3M1 14h6M9 8h6M17 16h6"/></svg>Parâmetros adicionais <span style="color:var(--muted-2);font-weight:400">Setores, elasticidades e premissas detalhadas ▾</span></span>
+            <div class="spacer"></div>
+            <button class="btn" id="sim-reset">↺ Redefinir para o cenário base</button>
+            <button class="btn dark" id="sim-update">⟳ Atualizar simulação</button>
+          </div>
+        </div>
+
+        <div class="card pad">
+        <div class="section-title" style="margin-bottom:12px">RESULTADO DA SIMULAÇÃO – <span class="yr">2033</span></div>
+        <div class="res-stats">
+          <div class="res-stat"><div class="top"><div class="k">Receita projetada <span class="yr">2033</span><small>(com reforma)</small></div><div class="badge b-blue"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21h18M5 21V10l7-5 7 5v11"/></svg></div></div><div class="v v-blue" id="sim-com">R$ 366,4 mi</div></div>
+          <div class="res-stat"><div class="top"><div class="k">Receita base <span class="yr">2033</span><small>(sem reforma)</small></div><div class="badge b-navy"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21h18M5 21V10l7-5 7 5v11M9 21v-6h6v6"/></svg></div></div><div class="v v-navy" id="sim-sem">R$ 388,9 mi</div></div>
+          <div class="res-stat"><div class="top"><div class="k">Impacto financeiro<small>(<span class="yr">2033</span>)</small></div><div class="badge b-coral" id="sim-imp-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 17l6-6 4 4 6-8"/></svg></div></div><div class="v v-coral" id="sim-imp">- R$ 26,0 mi</div></div>
+          <div class="res-stat"><div class="top"><div class="k">Impacto percentual<small>(<span class="yr">2033</span>)</small></div><div class="badge b-coral"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="7" cy="7" r="3"/><circle cx="17" cy="17" r="3"/><path d="M6 18L18 6"/></svg></div></div><div class="v v-coral" id="sim-imp-pct">- 6,6%</div></div>
+          <div class="res-stat"><div class="top"><div class="k">Alíquota de equilíbrio<small>(estimada)</small></div><div class="badge b-blue"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v18M6 7h12M4 11l3-4 3 4a3 3 0 01-6 0zM14 11l3-4 3 4a3 3 0 01-6 0z"/></svg></div></div><div class="v v-blue" id="sim-eq">18,74%</div></div>
+          <div class="res-stat"><div class="top"><div class="k">Classificação de risco<small>(exposição à reforma)</small></div><div class="badge b-coral"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3l9 5v6c0 5-4 7-9 7s-9-2-9-7V8z"/></svg></div></div><div class="tag" id="sim-risco" style="margin-top:10px">ALTO</div></div>
+        </div>
+      </div>
+        </div><!-- /sim-left -->
+
+        <!-- scenarios -->
+        <div class="card pad">
+          <div class="scen-title">CENÁRIOS PRÉ-DEFINIDOS</div>
+          <div class="scenarios" id="scen-cards">
+            <div class="scen-card" data-preset="conservador">
+              <div class="ic" style="background:var(--teal-soft);color:var(--teal)"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3l9 5v6c0 5-4 7-9 7s-9-2-9-7V8z"/></svg></div>
+              <div class="nm">Cenário Conservador</div>
+              <div class="ds">Menor crescimento econômico e de consumo.</div>
+              <div class="ib">IBS total: 17,5%</div>
+            </div>
+            <div class="scen-card sel" data-preset="base">
+              <div class="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 12l5 5 9-11"/></svg></div>
+              <div class="ic" style="background:#e8eaef;color:var(--blue)"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 17l6-6 4 4 8-8"/></svg></div>
+              <div class="nm">Cenário Base</div>
+              <div class="ds">Parâmetros médios de crescimento.</div>
+              <div class="ib">IBS total: 18,7%</div>
+            </div>
+            <div class="scen-card" data-preset="otimista">
+              <div class="ic" style="background:#ebe8f0;color:var(--purple)"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3l2.5 6H21l-5 4 2 7-6-4-6 4 2-7-5-4h6.5z"/></svg></div>
+              <div class="nm">Cenário Otimista</div>
+              <div class="ds">Maior crescimento econômico e de consumo.</div>
+              <div class="ib">IBS total: 20,0%</div>
+            </div>
+            <div class="scen-new" id="scen-new">+ Criar meu cenário</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- evolution + tables -->
+      <div class="big-grid">
+        <div class="card pad">
+          <div class="section-title">EVOLUÇÃO DA RECEITA TOTAL – COMPARATIVO DE CENÁRIOS</div>
+          <div style="font-size:10.5px;color:var(--muted);margin:4px 0 10px">Valores nominais (R$ milhões)</div>
+          <div class="legend">
+            <span><i class="line" style="border-top-color:#7a5a2e"></i>Cenário Conservador</span>
+            <span><i class="solid" style="background:#2f4566"></i>Meu Cenário (atual)</span>
+            <span><i class="line" style="border-top-color:#4b3a6b"></i>Cenário Otimista</span>
+            <span><i class="line" style="border-top-color:#64748b"></i>Sem reforma (cenário base)</span>
+          </div>
+          <div class="chart-box" style="height:330px"><canvas id="c-evolucao"></canvas></div>
+          <div class="note"><span>ⓘ</span>Os resultados são projeções e podem variar conforme mudanças na legislação, na economia e nas bases de dados.</div>
+        </div>
+
+        <div style="display:flex;flex-direction:column;gap:14px">
+          <div class="card pad">
+            <div class="section-title">COMPARAÇÃO DOS CENÁRIOS – <span class="yr">2033</span></div>
+            <table class="cmp-tbl" style="margin-top:10px">
+              <thead><tr><th>Cenário</th><th>Receita <span class="yr">2033</span> (R$ mi)</th><th>Impacto (R$ mi)</th><th>Impacto (%)</th></tr></thead>
+              <tbody id="cmp-tbody"></tbody>
+            </table>
+          </div>
+          <div class="card pad">
+            <div class="section-title">SENSIBILIDADE DA RECEITA (<span class="yr">2033</span>)</div>
+            <div style="font-size:10.5px;color:var(--muted);margin:4px 0 8px">Variação da receita total em relação ao cenário atual (R$ milhões)</div>
+            <table class="sens-tbl">
+              <thead><tr><th>Variação do parâmetro</th><th>-10%</th><th>-5%</th><th>Base</th><th>+5%</th><th>+10%</th></tr></thead>
+              <tbody id="sens-tbody"></tbody>
+            </table>
+            <div class="tbl-foot"><span class="mini-link">Ver análise de sensibilidade completa →</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- saved scenarios -->
+      <div class="card pad" style="margin-top:16px">
+        <div class="section-head"><div class="section-title">MEUS CENÁRIOS SALVOS</div><span class="mini-link">Ver todos →</span></div>
+        <div class="saved" id="saved-list"></div>
+      </div>
+    </section>
+
+    <!-- ========== VIEW: SIMULADOR OFICIAL (IBS) ========== -->
+    <section id="view-oficial" class="hidden">
+      <div>
+        <div class="page-title">SIMULADOR OFICIAL (IBS)</div>
+        <div class="page-sub">Cálculo de referência do <b>Guia do dados_reforma.json</b> — reproduz a tabela de conferência para qualquer um dos 295 municípios de SC, de 2013 a 2078.</div>
+      </div>
+
+      <div class="of-grid">
+        <!-- Entradas -->
+        <div class="card pad">
+          <div class="section-title">ENTRADAS DO SIMULADOR</div>
+          <div class="of-inputs">
+            <div class="of-in"><label>Município</label><div class="of-static" id="of-mun">—</div></div>
+            <div class="of-in"><label>Ano</label><div class="of-static" id="of-ano">—</div></div>
+            <div class="of-in wide">
+              <label>Alíquota do IBS total <span class="q" title="A alíquota-cheia do IBS. O Comitê Gestor estima ~18,7%.">ⓘ</span></label>
+              <div class="of-ibs">
+                <input type="range" id="of-ibs" class="range" min="10" max="25" step="0.1" value="18.7" data-fill>
+                <div class="of-ibs-val"><b id="of-ibs-val">18,7</b>%</div>
+              </div>
+              <div class="ticks"><span>10%</span><span>15%</span><span>18,7%</span><span>20%</span><span>25%</span></div>
+            </div>
+            <div class="of-in wide">
+              <div class="of-split">
+                <div><span>Municipal (17%)</span><b id="of-am">3,18%</b></div>
+                <div><span>Estadual (83%)</span><b id="of-ae">15,52%</b></div>
+                <label class="of-manual"><input type="checkbox" id="of-manual"> Ajustar alíquotas manualmente</label>
+              </div>
+              <div class="of-manual-box hidden" id="of-manual-box">
+                <div class="of-in"><label>Alíquota municipal (%)</label><input type="number" id="of-am-in" step="0.01" value="3.18"></div>
+                <div class="of-in"><label>Alíquota estadual (%)</label><input type="number" id="of-ae-in" step="0.01" value="15.52"></div>
+              </div>
+            </div>
+            <div class="of-in wide">
+              <label class="of-seg-inline"><input type="checkbox" id="of-seguro"> Seguro-receita ligado <span class="q" title="Desconta os 5% do IBS-destino que vão para o fundo do seguro-receita.">ⓘ</span></label>
+            </div>
+          </div>
+          <div class="of-hint">A base de cálculo (<b>fator_base</b>), as regras de transição e a receita sem reforma vêm do JSON. As alíquotas são as suas hipóteses. <a href="#" id="of-metod">Ver metodologia →</a></div>
+        </div>
+
+        <!-- Resultado -->
+        <div class="card pad">
+          <div class="section-title">RESULTADO</div>
+          <div class="of-kpis">
+            <div class="of-kpi"><div class="k">Receita COM reforma</div><div class="v v-blue" id="of-com">—</div></div>
+            <div class="of-kpi"><div class="k">Receita SEM reforma</div><div class="v v-navy" id="of-sem">—</div></div>
+            <div class="of-kpi"><div class="k">Variação</div><div class="v" id="of-var">—</div></div>
+            <div class="of-kpi"><div class="k">Alíquota de equilíbrio</div><div class="v v-blue" id="of-eq">—</div></div>
+            <div class="of-kpi"><div class="k">Receita per capita</div><div class="v" id="of-pc">—</div></div>
+            <div class="of-kpi"><div class="k">Risco</div><div class="tag" id="of-risco" style="margin-top:8px">—</div></div>
+          </div>
+          <div class="of-note" id="of-tipo"></div>
+        </div>
+      </div>
+
+      <!-- parcelas + intermediários -->
+      <div class="of-grid">
+        <div class="card pad">
+          <div class="section-title">AS TRÊS PARCELAS DA RECEITA</div>
+          <div style="font-size:10.5px;color:var(--muted);margin:4px 0 10px">Legado + Histórica + Destino = receita com reforma (R$ milhões)</div>
+          <div class="of-bar" id="of-bar"></div>
+          <table class="of-tbl" style="margin-top:12px">
+            <tbody id="of-parcelas"></tbody>
+          </table>
+        </div>
+        <div class="card pad">
+          <div class="section-title">VALORES INTERMEDIÁRIOS (PASSO A PASSO)</div>
+          <table class="of-tbl" style="margin-top:10px"><tbody id="of-inter"></tbody></table>
+        </div>
+      </div>
+
+      <!-- trajetória -->
+      <div class="card pad">
+        <div class="section-title">TRAJETÓRIA DA RECEITA 2013–2078</div>
+        <div class="legend" style="margin-top:8px">
+          <span><i class="line" style="border-top-color:#64748b"></i>Sem reforma</span>
+          <span><i class="solid" style="background:#2f4566"></i>Com reforma (com seguro)</span>
+          <span><i class="line" style="border-top-color:#3d5a45"></i>Com reforma (sem seguro / destino pleno)</span>
+        </div>
+        <div class="chart-box" style="height:320px"><canvas id="of-chart"></canvas></div>
+        <div class="note"><span>ⓘ</span>Valores nominais (o JSON cresce ~2% real + 3,5% de IPCA ao ano). As alíquotas de referência ficam fixas; mudar o IBS não altera o fator_base.</div>
+      </div>
+
+      <!-- conferência -->
+      <div class="card pad">
+        <div class="section-head"><div class="section-title">TABELA DE CONFERÊNCIA</div><span class="mini-link" id="of-conf-mun">—</span></div>
+        <div style="font-size:10.5px;color:var(--muted);margin:4px 0 8px">Receita para 3 alíquotas × 3 anos, como na seção 7 do Guia (R$ milhões).</div>
+        <table class="of-tbl conf"><thead><tr><th>IBS total</th><th>Mun / Est</th><th>Ano</th><th>Sem reforma</th><th>Com reforma</th><th>Variação</th><th>Com seguro</th></tr></thead><tbody id="of-conf"></tbody></table>
+      </div>
+
+      <!-- ranking -->
+      <div class="card pad">
+        <div class="section-head"><div class="section-title">RANKING DOS 295 MUNICÍPIOS</div>
+          <div class="of-rank-ctl">
+            <input type="text" id="of-search" placeholder="Buscar município…">
+            <select id="of-sort"><option value="var-desc">Maior variação %</option><option value="var-asc">Menor variação %</option><option value="imp-desc">Maior impacto R$</option><option value="imp-asc">Menor impacto R$</option><option value="nome">Nome (A–Z)</option></select>
+          </div>
+        </div>
+        <div style="font-size:10.5px;color:var(--muted);margin:4px 0 8px">Para o ano e o IBS selecionados acima. <b id="of-sc-total"></b></div>
+        <table class="of-tbl rank"><thead><tr><th>#</th><th>Município</th><th>Sem reforma (mi)</th><th>Com reforma (mi)</th><th>Impacto (mi)</th><th>Variação</th><th>Risco</th><th>Alíq. eq.</th></tr></thead><tbody id="of-rank"></tbody></table>
+        <div class="tbl-foot"><span class="mini-link" id="of-rank-more">Mostrar todos os 295 →</span></div>
+      </div>
+    </section>
+
+    <!-- ========== VIEW: COMPARAÇÃO DE CENÁRIOS ========== -->
+    <section id="view-comparacao" class="hidden">
+      <div>
+        <div class="page-title">COMPARAÇÃO DE CENÁRIOS</div>
+        <div class="page-sub">Como <b id="cp-mun">—</b> se sai nos cenários econômicos <b>Conservador</b>, <b>Base</b> e <b>Otimista</b>, pelo modelo v2 (dados 2015–2096). Troque o município na barra do topo.</div>
+      </div>
+
+      <!-- controles -->
+      <div class="card pad cp-controls">
+        <div class="cp-ctl">
+          <label>Ano da análise</label>
+          <div class="cp-chips" id="cp-years"></div>
+        </div>
+        <div class="cp-ctl">
+          <label>Comparar a receita com</label>
+          <div class="cp-seg" id="cp-comp">
+            <button data-v="lei" class="on">Pela lei</button>
+            <button data-v="final">Regra final (só consumo)</button>
+          </div>
+        </div>
+        <div class="cp-ctl">
+          <label>Projeção sem reforma</label>
+          <div class="cp-seg" id="cp-proj">
+            <button data-v="tendencia" class="on">Tendência</button>
+            <button data-v="brasil">Ritmo do Brasil</button>
+          </div>
+        </div>
+        <div class="cp-ctl grow">
+          <label>Alíquota de referência do IBS — <b id="cp-aliq-val">17,5%</b></label>
+          <input type="range" id="cp-aliq" class="range" min="15" max="22" step="0.1" value="17.5">
+        </div>
+        <div class="cp-ctl grow">
+          <label>Consumo local — <b id="cp-loc-val">100%</b></label>
+          <input type="range" id="cp-loc" class="range" min="80" max="120" step="1" value="100">
+        </div>
+        <div class="cp-ctl">
+          <label>Gráficos até</label>
+          <div class="cp-seg" id="cp-horizon">
+            <button data-v="2050">2050</button>
+            <button data-v="2096" class="on">2096</button>
+          </div>
+        </div>
+        <button class="btn" id="cp-reset" style="align-self:flex-end">↺ Padrão</button>
+      </div>
+
+      <!-- 3 cards de cenário -->
+      <div class="cp-scen-cards" id="cp-cards"></div>
+
+      <!-- trajetória -->
+      <div class="card pad">
+        <div class="section-title">RECEITA COM A REFORMA — 3 CENÁRIOS (<span class="cp-metric">pela lei</span>)</div>
+        <div style="font-size:10.5px;color:var(--muted);margin:4px 0 2px">Receita municipal projetada, R$ milhões. Linha tracejada = sem reforma (cenário base).</div>
+        <div class="legend" id="cp-legend"></div>
+        <div class="chart-box" style="height:340px"><canvas id="cp-chart-traj"></canvas></div>
+      </div>
+
+      <div class="of-grid">
+        <!-- 4 efeitos -->
+        <div class="card pad">
+          <div class="section-title">O QUE EXPLICA A DIFERENÇA — CENÁRIO <span id="cp-ef-cen">BASE</span> (<span class="cp-yr-lbl">2033</span>)</div>
+          <div style="font-size:10.5px;color:var(--muted);margin:4px 0 10px">Os quatro efeitos somam a diferença total entre com e sem reforma (R$ milhões).</div>
+          <div id="cp-efeitos"></div>
+        </div>
+        <!-- impacto por cenario ao longo do tempo -->
+        <div class="card pad">
+          <div class="section-title">IMPACTO % AO LONGO DO TEMPO</div>
+          <div style="font-size:10.5px;color:var(--muted);margin:4px 0 2px">Impacto da reforma sobre a receita, por cenário (%).</div>
+          <div class="chart-box" style="height:300px"><canvas id="cp-chart-imp"></canvas></div>
+        </div>
+      </div>
+
+      <!-- tabela anos-chave -->
+      <div class="card pad">
+        <div class="section-title">ANOS-CHAVE — IMPACTO POR CENÁRIO</div>
+        <div style="font-size:10.5px;color:var(--muted);margin:4px 0 8px">Receita com reforma (R$ mi) e variação vs. sem reforma, em cada cenário.</div>
+        <table class="of-tbl cp-table"><thead><tr><th>Ano</th>
+          <th>Conservador</th><th>Var.</th>
+          <th>Base</th><th>Var.</th>
+          <th>Otimista</th><th>Var.</th></tr></thead>
+          <tbody id="cp-table"></tbody></table>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<!-- Metodologia modal -->
+<div class="modal-bg hidden" id="modal-metod">
+  <div class="modal">
+    <div class="modal-head"><b>Metodologia e premissas</b><span class="modal-x" id="modal-x">✕</span></div>
+    <div class="modal-body" id="modal-body"></div>
+  </div>
+</div>
+
+<script src="js/chart.umd.js"></script>
+<script src="js/data.js"></script>
+<script src="js/dados_reforma.js"></script>
+<script src="js/reforma.js"></script>
+<script src="js/dados_reforma_v2.js"></script>
+<script src="js/reforma_v2.js"></script>
+<script src="js/malha_sc.js"></script>
+<script src="js/model.js"></script>
+<script src="js/app.js"></script>
+<script src="js/mapa_risco.js"></script>
+<script src="js/transicao.js"></script>
+<script src="js/dados_estrutura.js"></script>
+<script src="js/estrutura.js"></script>
+<script src="js/dados_setorial.js"></script>
+<script src="js/setorial.js"></script>
+<script src="js/dados_benchmark.js"></script>
+<script src="js/benchmark.js"></script>
+<script src="js/dados_metodologia.js"></script>
+<script src="js/metodologia.js"></script>
+<script src="js/dados_investimento.js"></script>
+<script src="js/investimento_motor.js"></script>
+<script src="js/investimento.js"></script>
+<script src="js/play.js"></script>
+</body>
+</html>
