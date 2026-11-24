@@ -1,0 +1,16 @@
+/* Filtro por associação de municípios */
+.select.real.assoc-sel{min-width:150px}
+.select.real.assoc-sel select{max-width:190px}
+.select.real.assoc-sel.ativo{box-shadow:0 0 0 2px #8a63d2}
+.assoc-qtd{font-size:9.5px;color:#8a63d2;font-weight:700;margin-left:4px}
+
+svg path.m{transition:opacity .25s ease}
+svg path.m.fora-assoc{opacity:.15}
+svg.assoc-on path.m:not(.fora-assoc){stroke:#2c0e5e;stroke-width:.9}
+
+/* Tela de carregamento enquanto os dados (~15 MB) chegam */
+.carregando{position:fixed;inset:0;display:flex;flex-direction:column;gap:14px;align-items:center;justify-content:center;
+  background:rgba(244,245,248,.92);z-index:9999;font:600 14px 'Inter',sans-serif;color:#2c0e5e}
+.carregando img{width:56px;height:56px;animation:pulso 1.2s ease-in-out infinite}
+.carregando.erro{color:#7a3b35}
+@keyframes pulso{50%{transform:scale(.88);opacity:.6}}

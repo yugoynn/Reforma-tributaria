@@ -39,8 +39,8 @@
        • crescimento econômico/consumo → desvio anual sobre o consumo e a
          receita sem reforma do município, a partir de 2025 (mesma regra do
          simulador: 45% econômico + 55% consumo);
-       • crescimento populacional → desvio sobre a fatia do município na
-         cota-parte do IBS estadual;
+       • crescimento populacional → premissa macro (SC inteiro): não muda a
+         fatia do município na cota-parte do IBS estadual;
        • consumo local → parâmetro L do modelo v2 (relativo ao cenário);
        • alíquota de IBS → muda a alíquota de referência do v2 na mesma
          proporção (18,7% no Base ≡ 17,5% de referência no v2).            */
@@ -66,16 +66,25 @@
   function linhasAjustadas(cod, P) {
     const p = REFORMA2.parametrosPadrao({ cenario: P.cen, consumoLocal: P.L, aliquota: P.aliq });
     const m = REFORMA2.mun(String(cod));
-    if (Math.abs(P.dg) < 1e-12 && Math.abs(P.dpop) < 1e-12) return { p, lin: REFORMA2.calcularMunicipio(cod, p), ser: m.series[P.cen] };
+    if (Math.abs(P.dg) < 1e-12) return { p, lin: REFORMA2.calcularMunicipio(cod, p), ser: m.series[P.cen] };
     const anos = REFORMA2.anos;
     const f = (d, t) => t <= ANCORA ? 1 : Math.max(0.05, Math.pow(1 + d, t - ANCORA));
     const sc = (arr, d) => arr.map((v, i) => v == null ? v : v * f(d, anos[i]));
     const s0 = m.series[P.cen];
     const ser = { cp_icms: sc(s0.cp_icms, P.dg), iss: sc(s0.iss, P.dg), consumo: sc(s0.consumo, P.dg) };
     const KEY = '__tr_ajuste__';
-    REFORMA2.D.municipios[KEY] = Object.assign({}, m, { p_ipm_ibs: sc(m.p_ipm_ibs, P.dpop), series: { [P.cen]: ser } });
-    try { return { p, lin: REFORMA2.calcularMunicipio(KEY, p), ser }; }
-    finally { delete REFORMA2.D.municipios[KEY]; }
+    /* CORREÇÃO (auditoria 11/2026): o desvio de crescimento é macro, então vale também
+       para o consumo de SC e do Brasil, que formam a parcela retida pela média
+       histórica (coef × IBS Brasil), a cota-parte estadual e o seguro-receita.
+       Antes só o contrafactual e o consumo do município cresciam: aumentar o
+       consumo fazia a reforma "perder" receita para o cenário-base.
+       O crescimento populacional também é macro (todo SC cresce junto): a fatia do
+       município na cota-parte não muda (correção 2, 11/2026). */
+    const n0 = REFORMA2.D.nacional[P.cen];
+    REFORMA2.D.nacional[KEY] = Object.assign({}, n0, { consumo_br: sc(n0.consumo_br, P.dg), consumo_sc: sc(n0.consumo_sc, P.dg), T_br: sc(n0.T_br, P.dg) });
+    REFORMA2.D.municipios[KEY] = Object.assign({}, m, { p_ipm_ibs: m.p_ipm_ibs, series: { [KEY]: ser } });
+    try { return { p, lin: REFORMA2.calcularMunicipio(KEY, Object.assign({}, p, { cenario: KEY })), ser }; }
+    finally { delete REFORMA2.D.municipios[KEY]; delete REFORMA2.D.nacional[KEY]; }
   }
 
   /* ---------------- Santa Catarina: soma dos 295 (mesmos parâmetros em cada um) ---------------- */
@@ -89,7 +98,7 @@
     const ser = { cp_icms: new Array(n).fill(0), iss: new Array(n).fill(0) };
     let p = null;
     REFORMA2.municipios.forEach((x) => {
-      const r = linhasAjustadas(x.cod, P); p = r.p;
+      const r = linhasAjustadas(x.cod, Object.assign({}, P, { dpop: 0 })); p = r.p;
       r.lin.forEach((l, i) => {
         if (!l || l.semDado) return;
         CAMPOS_SC.forEach((c) => { lin[i][c] += l[c] || 0; });
@@ -449,7 +458,7 @@
           <li><b>Modelo:</b> dados_reforma_v2 (295 municípios de SC), receita "pela lei", com seguro-receita.</li>
           <li><b>Cenário de referência:</b> ${REFORMA2.cenLabel(S.cen)} (o último cenário pronto escolhido). Nele os sliders não causam desvio e os números são os do modelo v2, os mesmos do Mapa de Risco.</li>
           <li><b>Parâmetros atuais:</b> crescimento econômico ${pct(cur.eco, 1)}, consumo ${pct(cur.cons, 1)}, população ${pct(cur.pop, 1)}, IBS total ${pct(cur.ibs, 2)}, consumo local ${pct(cur.loc, 0)}.</li>
-          <li><b>Como entram no cálculo:</b> a diferença entre o crescimento escolhido (45% econômico + 55% consumo) e o do cenário de referência vira um desvio anual, a partir de ${ANCORA}, sobre o consumo e a receita sem reforma do município; o crescimento populacional muda a fatia do município na cota-parte do IBS estadual; o consumo local vira o fator L do v2.</li>
+          <li><b>Como entram no cálculo:</b> a diferença entre o crescimento escolhido (45% econômico + 55% consumo) e o do cenário de referência vira um desvio anual, a partir de ${ANCORA}, aplicado igualmente ao consumo e à receita sem reforma do município e ao consumo de SC e do Brasil (que formam a parcela pela média histórica, a cota-parte e o seguro-receita). Por isso, mudar só o ritmo de crescimento altera os valores em R$, mas quase não altera a diferença em %; para simular o município crescendo mais que a média, use o slider de consumo local. O crescimento populacional também vale para todo SC, então não muda a fatia do município na cota-parte do IBS estadual (para simular o município crescendo mais que SC, use o consumo local); o consumo local vira o fator L do v2.</li>
           <li><b>Alíquota de referência do IBS no v2:</b> ${pct(S.p.aliquota * 100, 2)}. O slider é aplicado em proporção ao cenário (18,7% no Base equivale aos 17,5% de referência do v2).</li>
           <li><b>Receita sem reforma:</b> cota-parte do ICMS + ISS projetada pela tendência do município.</li>
           <li><b>Ano de equilíbrio:</b> primeiro ano a partir do qual a receita com reforma fica igual ou acima da receita sem reforma até 2096.</li>

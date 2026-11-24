@@ -67,6 +67,10 @@ const REFORMA = (function () {
     const bF = adj.base == null ? 1 : adj.base;
     const sF = adj.sem  == null ? 1 : adj.sem;
     const pF = adj.pop  == null ? 1 : adj.pop;
+    // CORREÇÃO (auditoria 11/2026): o crescimento do cenário é macro (SC e Brasil); o
+    // consumo de SC que forma o pool retido e a cota-parte cresce no mesmo ritmo
+    // da receita sem reforma. Antes só o contrafactual crescia e a reforma 'perdia'.
+    const cF = adj.pool == null ? sF : adj.pool;
 
     const m = mun(cod);
     const i = idxAno[ano];
@@ -78,12 +82,15 @@ const REFORMA = (function () {
     const semRef    = m.receita_sem_reforma[i] * sF;
 
     // Passo 2 — fatia do município nos 25% do IBS estadual
-    const cota = 0.95 * populacao / sc.populacao_sc[i] + 0.05 / N;
+    // CORREÇÃO (auditoria 11/2026, 2): o crescimento populacional do cenário é macro (vale
+    // para todo SC), então a população de SC cresce junto e a fatia do município na
+    // cota-parte não muda. Antes só o município crescia e a fatia se multiplicava.
+    const cota = 0.95 * populacao / (sc.populacao_sc[i] * pF) + 0.05 / N;
 
     // Passo 3 — IBS gerado
     const ibsMun  = aliqMun * FATOR * baseDest;
-    const ibsCota = 0.25 * aliqEst * FATOR * sc.consumo_sc[i] * cota;
-    const ibsPool = (aliqMun + 0.25 * aliqEst) * FATOR * sc.consumo_sc[i];
+    const ibsCota = 0.25 * aliqEst * FATOR * sc.consumo_sc[i] * cF * cota;
+    const ibsPool = (aliqMun + 0.25 * aliqEst) * FATOR * sc.consumo_sc[i] * cF;
 
     // Passo 4 — as três parcelas
     const legado     = pr.mantido * semRef;

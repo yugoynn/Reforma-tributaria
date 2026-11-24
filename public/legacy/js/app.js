@@ -84,7 +84,7 @@ const LC={meu:'#2f4566',sem:'#64748b',otim:'#4b3a6b',cons:'#7a5a2e',teal:'#0f9d8
    ============================================================ */
 function render(){
   document.querySelectorAll('.yr').forEach(e=>e.textContent=CTX.ano);
-  const munNm=munLabel(CTX.cod);
+  const munNm=CTX.sc?'Santa Catarina (soma dos 295 municípios)':munLabel(CTX.cod);
   set('ov-sub','Impacto estimado da Reforma Tributária para '+munNm);
   set('ov-map-name',munNm);
   const meu  = calcular(cur);
@@ -131,7 +131,7 @@ function renderOverview(m, base){
   const diff=m.eq-cur.ibs;
   document.getElementById('ov-eq-diff').innerHTML='Diferença<br>'+(diff>=0?'+':'')+num1(diff)+' p.p '+(diff>=0?'↑':'↓');
   setRisco('ov-risco', m.risco);
-  set('ov-explain', `A Reforma Tributária deve ${m.impacto<0?'reduzir':'aumentar'} a receita de ${tc(REFORMA.nome(CTX.cod))} em ${pct(Math.abs(m.impactoPct))} até ${CTX.ano}, neste cenário${CTX.seguro?' (com seguro-receita)':''}. A alíquota de IBS total de equilíbrio estimada é ${pct(m.eq,2)}.`);
+  set('ov-explain', `A Reforma Tributária deve ${m.impacto<0?'reduzir':'aumentar'} a receita de ${CTX.sc?'Santa Catarina':tc(REFORMA.nome(CTX.cod))} em ${pct(Math.abs(m.impactoPct))} até ${CTX.ano}, neste cenário${CTX.seguro?' (com seguro-receita)':''}. A alíquota de IBS total de equilíbrio estimada é ${pct(m.eq,2)}.`);
   set('ov-acc', moneySig(m.acumulado).replace('+ ','+ ').replace('- ','- '));
 
   // mini simulador table
@@ -351,7 +351,7 @@ function updateCharts(m, base){
   const rates=[16,16.5,17,17.5,18,cur.ibs, m.eq,19].filter((v,i,a)=>a.indexOf(v)===i).sort((a,b)=>a-b);
   const ca=charts.aliquota;
   ca.data.labels=rates.map(r=>pct(r, r%1===0?0:2));
-  ca.data.datasets[0].data=rates.map(r=>({x:pct(r),y:+(calcular({...cur,ibs:r}).com33/1e6).toFixed(1),_eq:Math.abs(r-m.eq)<1e-6}));
+  ca.data.datasets[0].data=rates.map(r=>({x:pct(r),y:+(anoBase({...cur,ibs:r}).com/1e6).toFixed(1),_eq:Math.abs(r-m.eq)<1e-6}));
   ca.update();
 
   // composição da receita do município (v2) — por ano, com marca no ano-base

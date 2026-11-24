@@ -71,42 +71,61 @@ function adjFor(p) {
     return {
       base: growthFactor(p, t) * (p.loc / LOC_BASE),
       sem:  growthFactor(p, t),
+      pool: growthFactor(p, t),   // consumo de SC/Brasil cresce junto (correção)
       pop:  popFactor(p, t),
     };
   };
 }
 
+/* Município selecionado ou Santa Catarina (soma dos 295) — segue o seletor do topo */
+function alvoSC() { return !!CTX.sc; }
+var CAMPOS_SOMA = ['total', 'semReforma', 'legado', 'historica', 'destino', 'destinoPleno', 'populacao', 'base_destino'];
+function receitaAlvo(y, ibsFrac, seguro, a) {
+  if (!alvoSC()) return REFORMA.receitaIBS(CTX.cod, y, ibsFrac, seguro, a);
+  var t = {}; CAMPOS_SOMA.forEach(function (k) { t[k] = 0; });
+  var r0 = null;
+  REFORMA.municipios.forEach(function (x) {
+    var r = REFORMA.receitaIBS(x.cod, y, ibsFrac, seguro, a); r0 = r;
+    CAMPOS_SOMA.forEach(function (k) { t[k] += r[k] || 0; });
+  });
+  t.T = r0.T; t.ret = r0.ret; t.seg = r0.seg; t.mantido = r0.mantido;
+  return t;
+}
+
 /* Projeta a trajetória completa (2013 -> 2096) para um cenário p */
 function projetar(p) {
   var adj = adjFor(p);
-  var comSeg = REFORMA.serie(CTX.cod, p.ibs / 100, true,  adj);   // realista (c/ seguro)
-  var pleno  = REFORMA.serie(CTX.cod, p.ibs / 100, false, adj);   // sem seguro
   var serie = {};
-  comSeg.forEach(function (r, i) {
-    var y = r.ano;
+  REFORMA.anos.forEach(function (y) {
     if (y > ANO_FIM) return;
+    var a = adj(y);
+    var r = receitaAlvo(y, p.ibs / 100, true, a);        // realista (c/ seguro)
+    var q = receitaAlvo(y, p.ibs / 100, false, a);       // sem seguro
     serie[y] = {
       consumo: r.base_destino, base: r.base_destino, pop: r.populacao,
       sem: r.semReforma,
-      com: pleno[i].total,          // sem seguro
+      com: q.total,                 // sem seguro
       comSeguro: r.total,           // com seguro
       legado: r.legado, historica: r.historica, destino: r.destino,
-      destinoPleno: pleno[i].destino,
+      destinoPleno: q.destino,
       T: r.T, ret: r.ret, seg: r.seg, mantido: r.mantido,
+      prot: 1 - r.T,
       hist: y <= ANCHOR,
     };
   });
   return serie;
 }
 
-/* IBS total (%) que zera o impacto no ano-base (regime escolhido) */
+/* receita com reforma no ano-base (regime escolhido) e sem reforma — só um ano */
+function anoBase(p) {
+  var y = anoV1(), a = adjFor(p)(y);
+  var r = receitaAlvo(y, p.ibs / 100, CTX.seguro, a);
+  return { com: r.total, sem: r.semReforma };
+}
+
+/* IBS total (%) que zera o impacto no ano-base (regime escolhido): a receita é linear na alíquota */
 function aliquotaEquilibrio(p) {
-  var y = anoV1();
-  var mk = function (r) {
-    var s = projetar(Object.assign({}, p, { ibs: r }));
-    return { com: CTX.seguro ? s[y].comSeguro : s[y].com, sem: s[y].sem };
-  };
-  var A = mk(10), B = mk(20);
+  var A = anoBase(Object.assign({}, p, { ibs: 10 })), B = anoBase(Object.assign({}, p, { ibs: 20 }));
   var slope = (B.com - A.com) / 10;
   if (Math.abs(slope) < 1e-9) return NaN;
   var t0 = A.com - slope * 10;
@@ -144,7 +163,7 @@ function sensibilidade(p) {
   var linha = function (campo) {
     return vars.map(function (v) {
       var q = Object.assign({}, p); q[campo] = p[campo] * (1 + v / 100);
-      return calcular(q).com33 / 1e6;
+      return anoBase(q).com / 1e6;
     });
   };
   return { eco: linha('eco'), cons: linha('cons'), ibs: linha('ibs') };
@@ -152,5 +171,5 @@ function sensibilidade(p) {
 
 /* Curva receita (ano-base) × alíquota IBS total */
 function curvaAliquota(p, rates) {
-  return rates.map(function (r) { var q = Object.assign({}, p); q.ibs = r; return calcular(q).com33 / 1e6; });
+  return rates.map(function (r) { var q = Object.assign({}, p); q.ibs = r; return anoBase(q).com / 1e6; });
 }
